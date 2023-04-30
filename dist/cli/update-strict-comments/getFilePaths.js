@@ -4,8 +4,8 @@ exports.getFilePathsOnPathWithoutErrors = exports.getFilePathsWithErrors = void 
 const isFileStrictByPath_1 = require("../../common/isFileStrictByPath");
 const getAbsolutePath_1 = require("../../common/getAbsolutePath");
 const findStrictErrors_1 = require("../findStrictErrors");
-const getFilePathsWithErrors = async (allFilePaths) => {
-    const errors = await findStrictErrors_1.findStrictErrors(allFilePaths);
+const getFilePathsWithErrors = async (allFilePaths, overrides) => {
+    const errors = await findStrictErrors_1.findStrictErrors(allFilePaths, overrides);
     const getFilePathFromErrorMessage = (error) => getAbsolutePath_1.getAbsolutePath(process.cwd(), error.split('(')[0]);
     return [...new Set(errors.map(getFilePathFromErrorMessage))];
 };

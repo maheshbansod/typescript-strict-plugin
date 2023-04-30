@@ -38,7 +38,7 @@ const filterOutNodeModulesFiles = (files) => {
     return files.filter((filePath) => !filePath.includes('/node_modules/'));
 };
 async function getFilesCheckedByTs() {
-    const filesCheckedByTs = await typescript.compile();
+    const filesCheckedByTs = await typescript.compile({});
     const filePaths = filesCheckedByTs.split(/\r?\n/).filter(utils_1.isFile).map(utils_1.getPosixFilePath);
     return filterOutNodeModulesFiles(filePaths);
 }

@@ -14,12 +14,20 @@ const showConfig = async () => {
 };
 exports.showConfig = showConfig;
 let compilerOutputCache = '';
-const compile = async () => {
+const compile = async (overrides) => {
     if (compilerOutputCache) {
         return compilerOutputCache;
     }
     try {
-        const compilerResult = await execa_1.default('tsc', [...process.argv.slice(2), '--strict', '--noEmit', '--pretty', 'false', '--listFiles'], {
+        const compilerResult = await execa_1.default('tsc', [
+            ...process.argv.slice(2),
+            '--strict',
+            '--noEmit',
+            '--pretty',
+            'false',
+            '--listFiles',
+            ...objectToCliArgs(overrides),
+        ], {
             all: true,
             preferLocal: true,
         });
@@ -43,4 +51,7 @@ function isExecaError(error) {
 }
 function wasCompileAborted(error) {
     return error.signal === 'SIGABRT' || error.exitCode === 134;
+}
+function objectToCliArgs(obj) {
+    return Object.entries(obj).flatMap(([key, value]) => [`--${key}`, String(value)]);
 }

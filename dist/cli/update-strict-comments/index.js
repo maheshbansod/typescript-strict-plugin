@@ -26,7 +26,7 @@ const run = async () => {
         return;
     }
     console.log(`🎯 Found ${strictFilePaths.length} strict ${utils_1.pluralize('file', strictFilePaths.length)}`);
-    const { updatedFileCount } = await updateStrictComments_1.updateStrictComments(strictFilePaths, pluginConfig.paths);
+    const { updatedFileCount } = await updateStrictComments_1.updateStrictComments(strictFilePaths, pluginConfig.paths, pluginConfig.overrides);
     console.log(`🔧 Updated comments in ${updatedFileCount} ${utils_1.pluralize('file', strictFilePaths.length)}`);
 };
 exports.run = run;

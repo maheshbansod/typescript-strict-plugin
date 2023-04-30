@@ -57,8 +57,8 @@ function getPathToErrorsMap(tscOutput) {
     });
     return result;
 }
-async function compile() {
-    const tscOutput = (await typescript.compile())
+async function compile(overrides) {
+    const tscOutput = (await typescript.compile(overrides))
         .split(/\r?\n/)
         .filter((it) => !utils_1.isFile(it));
     if (tscOutput.some((it) => it.startsWith('error'))) {

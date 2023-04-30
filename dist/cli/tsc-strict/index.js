@@ -13,6 +13,7 @@ const errorMessages_1 = require("../errorMessages");
 const utils_1 = require("../../common/utils");
 const getPluginConfig_1 = require("../getPluginConfig");
 const run = async () => {
+    var _a;
     const pluginConfig = await getPluginConfig_1.getPluginConfig();
     if (!pluginConfig) {
         console.log(chalk_1.default.red(errorMessages_1.notConfiguredError));
@@ -26,7 +27,7 @@ const run = async () => {
         return;
     }
     console.log(`🎯 Found ${strictFilePaths.length} strict ${utils_1.pluralize('file', strictFilePaths.length)}`);
-    const errors = await findStrictErrors_1.findStrictErrors(strictFilePaths);
+    const errors = await findStrictErrors_1.findStrictErrors(strictFilePaths, (_a = pluginConfig.overrides) !== null && _a !== void 0 ? _a : {});
     errors.forEach((error) => {
         console.log(chalk_1.default.red(error));
     });
