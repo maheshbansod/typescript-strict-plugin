@@ -10,7 +10,7 @@ const init: ts.server.PluginModuleFactory = () => {
       const strictFile = new PluginStrictFileChecker(info).isFileStrict(filePath);
 
       if (strictFile) {
-        turnOnStrictMode(info, info.project.getCompilerOptions());
+        turnOnStrictMode(info, info.project.getCompilerOptions(), info.config.overrides);
       } else {
         turnOffStrictMode(info, info.project.getCompilerOptions());
       }

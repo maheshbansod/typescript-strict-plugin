@@ -4,9 +4,14 @@ import { PLUGIN_NAME } from '../common/constants';
 
 export type PluginInfo = ts_module.server.PluginCreateInfo;
 
-export function turnOnStrictMode(info: PluginInfo, currentOptions: CompilerOptions): void {
+export function turnOnStrictMode(
+  info: PluginInfo,
+  currentOptions: CompilerOptions,
+  overrides?: CompilerOptions,
+): void {
   info.project.setCompilerOptions({
     ...currentOptions,
+    ...overrides,
     strict: true,
   });
 }
