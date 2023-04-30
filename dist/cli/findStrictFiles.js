@@ -25,20 +25,21 @@ const typescript = __importStar(require("./typescript/typescript"));
 const CliStrictFileChecker_1 = require("./CliStrictFileChecker");
 const getPluginConfig_1 = require("./getPluginConfig");
 async function findStrictFiles() {
-    const filesCheckedByTS = await getFilesCheckedByTs();
-    const cliStrictFileChecker = new CliStrictFileChecker_1.CliStrictFileChecker();
+    var _a;
     const pluginConfig = await getPluginConfig_1.getPluginConfig();
     if (!pluginConfig) {
         return [];
     }
+    const filesCheckedByTS = await getFilesCheckedByTs((_a = pluginConfig.overrides) !== null && _a !== void 0 ? _a : {});
+    const cliStrictFileChecker = new CliStrictFileChecker_1.CliStrictFileChecker();
     return filesCheckedByTS.filter((filePath) => cliStrictFileChecker.isFileStrict(filePath, pluginConfig));
 }
 exports.findStrictFiles = findStrictFiles;
 const filterOutNodeModulesFiles = (files) => {
     return files.filter((filePath) => !filePath.includes('/node_modules/'));
 };
-async function getFilesCheckedByTs() {
-    const filesCheckedByTs = await typescript.compile({});
+async function getFilesCheckedByTs(overrides) {
+    const filesCheckedByTs = await typescript.compile(overrides);
     const filePaths = filesCheckedByTs.split(/\r?\n/).filter(utils_1.isFile).map(utils_1.getPosixFilePath);
     return filterOutNodeModulesFiles(filePaths);
 }
