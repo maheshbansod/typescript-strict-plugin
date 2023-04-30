@@ -29,7 +29,7 @@ export const run = async () => {
     `🎯 Found ${strictFilePaths.length} strict ${pluralize('file', strictFilePaths.length)}`,
   );
 
-  const errors = await findStrictErrors(strictFilePaths);
+  const errors = await findStrictErrors(strictFilePaths, pluginConfig.overrides ?? {});
 
   errors.forEach((error) => {
     console.log(chalk.red(error));

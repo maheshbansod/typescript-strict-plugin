@@ -1,4 +1,5 @@
 import execa, { ExecaError } from 'execa';
+import { CompilerOptions } from 'typescript';
 
 export const showConfig = async (): Promise<string> => {
   const output = await execa('tsc', [...process.argv.slice(2), '--showConfig'], {
@@ -10,7 +11,7 @@ export const showConfig = async (): Promise<string> => {
 };
 
 let compilerOutputCache = '';
-export const compile = async (): Promise<string> => {
+export const compile = async (overrides: CompilerOptions): Promise<string> => {
   if (compilerOutputCache) {
     return compilerOutputCache;
   }
@@ -18,7 +19,15 @@ export const compile = async (): Promise<string> => {
   try {
     const compilerResult = await execa(
       'tsc',
-      [...process.argv.slice(2), '--strict', '--noEmit', '--pretty', 'false', '--listFiles'],
+      [
+        ...process.argv.slice(2),
+        '--strict',
+        '--noEmit',
+        '--pretty',
+        'false',
+        '--listFiles',
+        ...objectToCliArgs(overrides),
+      ],
       {
         all: true,
         preferLocal: true,
@@ -46,4 +55,8 @@ function isExecaError(error: unknown): error is ExecaError {
 
 function wasCompileAborted(error: ExecaError): boolean {
   return error.signal === 'SIGABRT' || error.exitCode === 134;
+}
+
+function objectToCliArgs(obj: Record<string, unknown>): string[] {
+  return Object.entries(obj).flatMap(([key, value]) => [`--${key}`, String(value)]);
 }
