@@ -2,6 +2,7 @@ import { getFilePathsWithErrors, getFilePathsOnPathWithoutErrors } from './getFi
 import { isIgnoreCommentPresent, isStrictCommentPresent } from '../isCommentPresent';
 import { isFileStrictByPath } from '../../common/isFileStrictByPath';
 import { insertIgnoreComment, removeStrictComment } from './commentOperations';
+import { CompilerOptions } from 'typescript';
 
 interface UpdateStrictCommentsResult {
   updatedFileCount: number;
@@ -10,8 +11,9 @@ interface UpdateStrictCommentsResult {
 export async function updateStrictComments(
   filePaths: string[],
   configPaths?: string[],
+  overrides?: CompilerOptions,
 ): Promise<UpdateStrictCommentsResult> {
-  const filesWithErrors = await getFilePathsWithErrors(filePaths);
+  const filesWithErrors = await getFilePathsWithErrors(filePaths, overrides ?? {});
   const filesOnPathWithoutErrors = getFilePathsOnPathWithoutErrors(
     filePaths,
     filesWithErrors,

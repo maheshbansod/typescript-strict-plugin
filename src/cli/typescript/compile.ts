@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import * as typescript from './typescript';
 import { isFile } from '../../common/utils';
+import { CompilerOptions } from 'typescript';
 
 /**
  * @param tscOutput
@@ -39,8 +40,8 @@ function getPathToErrorsMap(tscOutput: string[]): Map<string, string[]> {
   return result;
 }
 
-export async function compile(): Promise<Map<string, string[]>> {
-  const tscOutput: string[] = (await typescript.compile())
+export async function compile(overrides: CompilerOptions): Promise<Map<string, string[]>> {
+  const tscOutput: string[] = (await typescript.compile(overrides))
     .split(/\r?\n/)
     .filter((it) => !isFile(it));
 
