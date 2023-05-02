@@ -12,7 +12,7 @@ const init = () => {
                 utils_1.turnOnStrictMode(info, info.project.getCompilerOptions(), info.config.overrides);
             }
             else {
-                utils_1.turnOffStrictMode(info, info.project.getCompilerOptions());
+                utils_1.turnOffStrictMode(info, info.project.getCompilerOptions(), info.config.overrides);
             }
             return info.languageService.getSemanticDiagnostics(filePath);
         };
