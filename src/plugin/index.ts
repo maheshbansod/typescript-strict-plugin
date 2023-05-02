@@ -12,7 +12,7 @@ const init: ts.server.PluginModuleFactory = () => {
       if (strictFile) {
         turnOnStrictMode(info, info.project.getCompilerOptions(), info.config.overrides);
       } else {
-        turnOffStrictMode(info, info.project.getCompilerOptions());
+        turnOffStrictMode(info, info.project.getCompilerOptions(), info.config.overrides);
       }
 
       return info.languageService.getSemanticDiagnostics(filePath);
