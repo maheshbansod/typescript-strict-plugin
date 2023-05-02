@@ -16,9 +16,23 @@ export function turnOnStrictMode(
   });
 }
 
-export function turnOffStrictMode(info: PluginInfo, currentOptions: CompilerOptions): void {
+export function turnOffStrictMode(
+  info: PluginInfo,
+  currentOptions: CompilerOptions,
+  overrides: CompilerOptions,
+): void {
+  const overridesInverted = { ...overrides };
+  if (overridesInverted) {
+    // invert all options for turning them off
+    Object.keys(overridesInverted).forEach((key) => {
+      if (typeof overridesInverted[key] === 'boolean') {
+        overridesInverted[key] = !overridesInverted[key];
+      }
+    });
+  }
   info.project.setCompilerOptions({
     ...currentOptions,
+    ...overridesInverted,
     strict: false,
   });
 }
